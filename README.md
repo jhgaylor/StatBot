@@ -7,7 +7,7 @@ The purpose of this project is to demonstrate how I work as well as build a usef
 
 ## What is it?
 
-This project includes several components.
+This project includes several components. Each component is documented further in its respective home.
 
 ### LoLHubot
 
@@ -16,6 +16,7 @@ A hubot instance configured to connect to the Riot XMPP network. It also uses so
 Built using: 
 
 * Hubot
+* Hubot-xmpp
 * Coffeescript
 
 
@@ -33,10 +34,15 @@ The application is built using the following tools:
 * CSS - LESS
 * HTML - jade?
 * Javascript - Ecmascript 6
+* Bootstrap 3
 * XMPP
 
 ### MobileApp
 
 The codebase to build the mobile application. It provides basically the same functionality as `WebApp`.
 
-### 
+### StatBotAPI
+
+An application that serves the network APIs used by all the user facing applications. It provides a common end point for processing commands. This lets the codebase remain DRY. 
+
+This serves HTTP and WS apis. The HTTP api is used to receive commands from clients like `WebApp`, `MobileApp`, and `LoLHubot`.  The WS api is used to proxy XMPP connections and stream data.
