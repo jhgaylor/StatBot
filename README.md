@@ -33,7 +33,7 @@ The application is built using the following tools:
 * Meteor
 * CSS - LESS
 * HTML - jade?
-* Javascript - Ecmascript 6
+* Javascript - Ecmascript6
 * Bootstrap 3
 * XMPP
 
@@ -46,3 +46,9 @@ The codebase to build the mobile application. It provides basically the same fun
 An application that serves the network APIs used by all the user facing applications. It provides a common end point for processing commands. This lets the codebase remain DRY. 
 
 This serves HTTP and WS apis. The HTTP api is used to receive commands from clients like `WebApp`, `MobileApp`, and `LoLHubot`.  The WS api is used to proxy XMPP connections and stream data.
+
+Built using:
+
+* node - Ecmascript6
+* express.js
+* websockets
