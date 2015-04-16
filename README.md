@@ -3,7 +3,7 @@ A chat bot and web tools for League of Legends
 
 ## Purpose
 
-The purpose of this project is to demonstrate how I work as well as build a useful tool for the community.
+The purpose of this project is to demonstrate how I work as well as build a useful tool for the community. It will be developed entirely in the open. Check the wiki for writeups describing the process, use the issue tracker to ask questions or report bugs, use pull requests to suggest fixes or add features.
 
 ## What is it?
 
