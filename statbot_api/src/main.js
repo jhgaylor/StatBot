@@ -21,7 +21,7 @@ app.use('/', BaseRouter);
 app.use('/commands', CommandsRouter);
 
 // give the environment a chance to set the port explicitly or default to 3000
-var PORT = process.env.port || 3000;
+var PORT = 3000;
 
 // start up the server
 var server = app.listen( PORT, function () {
