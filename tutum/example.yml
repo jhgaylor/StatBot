@@ -1,6 +1,7 @@
 lolhubot:
   image: jhgaylor/lolhubot
   target_num_containers: 1
+  autorestart: always
   links:
     - "redis:redis"
   environment:
@@ -9,5 +10,17 @@ lolhubot:
 redis:
   image: tutum/redis
   target_num_containers: 1
+  autorestart: always
   environment:
     - REDIS_PASS=**None**
+api:
+  image: jhgaylor/statbot-api
+  target_num_containers: 1
+  autorestart: always
+  ports:
+    - "80:3000"
+  links:
+    - "redis:redis"
+  environment:
+    - LOL_API_KEY=KEY
+    - TEEMOJSON_API_KEY=KEY
