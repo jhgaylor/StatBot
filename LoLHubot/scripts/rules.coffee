@@ -20,7 +20,7 @@ otherRules = [
   ]
 
 module.exports = (robot) ->
-  robot.respond /(what are )?the (three |3 )?(rules|laws)/i, (msg) ->
+  robot.hear /(what are )?the (three |3 )?(rules|laws)/i, (msg) ->
     text = msg.message.text
     if text.match(/apple/i) or text.match(/dev/i)
       msg.send otherRules.join('\n')
