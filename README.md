@@ -33,7 +33,7 @@ The application is built using the following tools:
 * Meteor
 * CSS - LESS
 * HTML - jade?
-* Javascript - Ecmascript6
+* Javascript - Ecmascript5
 * Bootstrap 3
 * XMPP
 
@@ -49,6 +49,6 @@ This serves HTTP and WS apis. The HTTP api is used to receive commands from clie
 
 Built using:
 
-* node - Ecmascript6
+* node - Ecmascript5
 * express.js
 * websockets
