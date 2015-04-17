@@ -2,6 +2,7 @@
 
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
+export REDIS_URL="${REDIS_PORT}"
 
 exec node_modules/.bin/hubot "$@"
 

@@ -14,6 +14,10 @@ In addition to those listed in the dockerfile, these environment variables shoul
 
 `HUBOT_XMPP_PASSWORD` - League of Legends password with "AIR_" prepended to it. Example "AIR_apple"
 
+### Expected Links
+
+The docker container expects to be linked to a redis instance interally known as `redis`.
+
 ### Deploying to UNIX or Windows
 
 If you would like to deploy to either a UNIX operating system or Windows.

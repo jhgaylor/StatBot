@@ -16,7 +16,4 @@ ENV HUBOT_XMPP_PORT 5223
 ENV HUBOT_XMPP_LEGACYSSL 1
 ENV HUBOT_XMPP_ROOMS ""
 
-# This actually needs to get set by the orchestration tool
-# ENV REDIS_URL "redis://192.168.59.103:6379"
-
 cmd bin/hubot
