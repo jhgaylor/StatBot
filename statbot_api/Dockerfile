@@ -6,4 +6,4 @@ WORKDIR /statbot_api
 
 RUN npm install
 
-CMD node --harmony main.js
+CMD npm start
