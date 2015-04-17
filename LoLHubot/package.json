@@ -1,0 +1,35 @@
+{
+  "name": "LoLHubot",
+  "version": "0.0.1",
+  "author": "Jake Gaylor",
+  "keywords": [
+    "github",
+    "hubot",
+    "League of Legends",
+    "lol",
+    "bot"
+  ],
+  "description": "A simple helpful robot for your Company",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/github/hubot/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhgaylor/statbot.git"
+  },
+  "dependencies": {
+    "fibers": "^1.0.1",
+    "hubot": ">= 2.6.0 < 3.0.0",
+    "hubot-scripts": ">= 2.5.0 < 3.0.0",
+    "hubot-xmpp": ">= 0.0.1 < 1.0.0",
+    "lol-api": "^0.1.5",
+    "underscore": "^1.6.0"
+  },
+  "engines": {
+    "node": ">= 0.8.x",
+    "npm": ">= 1.1.x"
+  }
+}
