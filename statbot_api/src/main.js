@@ -1,17 +1,17 @@
 // Bootstraps the application and serve the express app
 
 // import the routers
-import CommandsRouter from './src/routers/commands'
-import BaseRouter from './src/routers/base'
-
+var BaseRouter = require('./routers/base');
+var CommandsRouter = require('./routers/commands');
+console.log(BaseRouter, CommandsRouter);
 // instantiate express
-let app = require('express')();
+var app = require('express')();
 
 // grab a logging library
-let logger = require('morgan');
+var logger = require('morgan');
 
 // for json body parsing
-let bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 
 // bind the logger to the express app
 app.use(logger("dev", {}));
@@ -21,9 +21,9 @@ app.use('/', BaseRouter);
 app.use('/commands', CommandsRouter);
 
 // give the environment a chance to set the port explicitly or default to 3000
-const PORT = process.env.port || 3000;
+var PORT = process.env.port || 3000;
 
 // start up the server
-let server = app.listen( PORT, () => {
-  console.log "Listening: ${server.address().port}";
+var server = app.listen( PORT, function () {
+  console.log("Listening: "+server.address().port);
 });
