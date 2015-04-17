@@ -1,0 +1,13 @@
+lolhubot:
+  image: jhgaylor/lolhubot
+  target_num_containers: 1
+  links:
+    - "redis:redis"
+  environment:
+    - HUBOT_XMPP_USERNAME=username@pvp.net/xiff
+    - HUBOT_XMPP_PASSWORD=AIR_YOURPASSWORD
+redis:
+  image: tutum/redis
+  target_num_containers: 1
+  environment:
+    - REDIS_PASS=**None**
