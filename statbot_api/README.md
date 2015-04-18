@@ -10,3 +10,7 @@ The runtime should be ECMAScript6 Harmony.
 `LOL_API_KEY` - An API key from [Riot Games](https://developer.riotgames.com/)
 
 `TEEMOJSON_API_KEY` - An API key from https://teemojson.p.mashape.com
+
+`STATBOT_CACHE_HOST` - The hostname of a redis instance to be used for a memory cache. Default: `127.0.0.1`
+
+`STATBOT_CACHE_PORT` - The port of a redis instance to be used for a memory cache coresponding to `STATBOT_CACHE_HOST`. Default: `6379`
