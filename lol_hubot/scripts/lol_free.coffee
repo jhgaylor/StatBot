@@ -21,12 +21,16 @@ module.exports = (robot) ->
       user_id: user.id
     })
     msg.send "Free Champs:"
+    # TODO: this needs to be more dry
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN
     region = msg.match[1] || "na"
     # console.log "region #{region}"
-    api_url = "http://#{API_FQDN}/commands/free?region=#{region}"
+    api_url = "http://#{API_FQDN}/commands/free"
     console.log(api_url)
     robot.http(api_url)
+      .query({
+        region: region
+      })
       .get() (err, res, body) ->
         if err
           console.log "Error getting free champions", err

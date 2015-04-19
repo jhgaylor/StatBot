@@ -27,3 +27,11 @@ var PORT = 3000;
 var server = app.listen( PORT, function () {
   console.log("Listening: "+server.address().port);
 });
+
+// var DataSources = require('./DataSources');
+// console.log(DataSources);
+// DataSources.riot.ranked_stats.get({summoner_name: "igetkills", region:"na"}).then(function (data) {
+//   console.log("got", data);
+// }).catch(function (err) {
+//   console.log("err", err);
+// })

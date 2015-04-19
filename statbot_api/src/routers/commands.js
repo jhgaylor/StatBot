@@ -37,69 +37,48 @@ _.each(LOLCHAMPIONSDATA, function (e, i ,l) {
 CommandsRouter.route('/free')
   .get( function (req, res) {
     region = req.params.region;
-    console.log(region);
-    Commands.free.run({region: region}).then(function (champs) {
-      res.send({
-        command: "/commands/free",
-        data: champs
+    Commands.free.run({region: region})
+      .then( function (results) {
+        res.send({
+          command: "/commands/free",
+          data: results
+        });
+      })
+      .catch( function (err) {
+        res.send({ error: res });
       });
-    }).catch(function (err) {
-      res.send({
-        error: res
-      });
-    });
   });
 
-// CommandsRouter.route('/stats')
-//   .get( (req, res) => {
-//     let summoner_name = req.param('summoner');
-//     let champion_name = req.param('champion');
-
-//     console.log(req.query, "name ${summoner_name}")
-//     if (! summoner_name) {
-//       res.send({
-//         command: "/commands/stats",
-//         error: "Please send `summoner` parameter."
-//       });
-//       return;
-//     }
-
-//     let doWork = async.compose(getRankedStatsFromID, getSummonerIDFromName);
-//     doWork(summoner_name, (err, results) => {
-//       if (err) {
-//         console.log(err);
-//         res.send({
-//           command: "/commands/stats",
-//           error: err
-//         });
-//       }
-//       else {
-//         let champions = [];
-//         let wins = 0;
-//         let losses = 0;
-//         champions = results.champions;
-//         console.log(champions);
-//         _.each(champions, (champion) => {
-//           _.each(champion.stats, (val, key, obj) => {
-//             if (key === "totalSessionsWon") {
-//               wins += val;
-//             }
-
-//             if (key === "totalSessionsLost") {
-//               losses += val;
-//             }
-//           });
-//         });
-
-//         res.send({
-//           command: "/commands/stats",
-//           data: {
-//             wins: wins,
-//             losses: losses
-//           }
-//         });
-//       }
-//     });
-//   });
+CommandsRouter.route('/stats')
+  .get( function (req, res) {
+    var summoner_name = req.query.summoner;
+    var champion_name = req.query.champion_name;
+    var region = req.query.region;
+    var season = req.query.season;
+    if (! summoner_name) {
+      res.send({
+        command: "/commands/stats",
+        error: "Please send `summoner` parameter."
+      });
+      return;
+    }
+    Commands.win_loss.run({
+        summoner_name: summoner_name,
+        champion_name:champion_name,
+        season: season,
+        region: region
+      })
+      .then( function (results) {
+        console.log("command returned", results)
+        res.send({
+          command: "/commands/win_loss",
+          data: results
+        });
+      })
+      .catch( function (err) {
+        console.log("command err", err)
+        res.send({ error: res });
+      });
+  });
 
 module.exports = CommandsRouter;

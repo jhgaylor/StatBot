@@ -1,4 +1,6 @@
 var Command = require('./Command');
+
+var _ = require('underscore')
 var Q = require('q');
 // NOTE: For each data_source listed, there will be a key accessible in
 //   the builderFn.  Only list a data_source if builder depends directly on the data
@@ -14,6 +16,34 @@ Commands = {
     var results_promise = champions_promise.then(function (champs) {
       // Do any formatting here
       return champs;
+    });
+    return results_promise;
+  }),
+  win_loss: Command(['riot.ranked_stats'], function (opts, dataSourceGetters) {
+    var stats_promise = dataSourceGetters['riot.ranked_stats'](opts)
+    var results_promise = stats_promise.then(function (stats) {
+      var champions = [];
+      var wins = 0;
+      var losses = 0;
+      champions = stats.champions;
+      _.each(champions, function (champion) {
+        // TODO: take into consideration champion_name if set
+        _.each(champion.stats, function (val, key, obj) {
+          if (key === "totalSessionsWon") {
+            wins += val;
+          }
+
+          if (key === "totalSessionsLost") {
+            losses += val;
+          }
+        });
+      });
+
+      return {
+        wins: wins,
+        losses: losses,
+        winRate: ((wins/(wins+losses))*100).toFixed(2)
+      }
     });
     return results_promise;
   }),

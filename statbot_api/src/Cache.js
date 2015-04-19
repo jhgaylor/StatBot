@@ -9,7 +9,7 @@ var Cache = function () {
   // the redis handle is private.
   var CacheClient = (function () {
     // tcp://ip:port
-    var redis_info = url.parse(process.env.REDIS_PORT);
+    var redis_info = url.parse(process.env.REDIS_PORT || "");
     var REDIS_PORT = redis_info && redis_info.port || 6379;
     var REDIS_HOST = redis_info && redis_info.hostname || '127.0.0.1';
     // TODO: grab options from env vars (I don't need to pass any right now but others might.)
