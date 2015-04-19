@@ -39,9 +39,11 @@ function DataSource (name, timeout, cache, getterFn, keyFn) {
 
           console.log("cache miss", key);
           var getterDeferred = Q.defer();
-          var getter_promise = getterFn(opts, getterDeferred.makeNodeResolver());
+          // will resolve or reject getterDeferred.promise from the getterFn
+          getterFn(opts, getterDeferred.makeNodeResolver());
           // cache the value once we get it
-          getter_promise.then(function (data) {
+          getterDeferred.promise.then(function (data) {
+            // store the data as a json string
             cache.set(key, JSON.stringify(data), this.timeout);
             dataDeferred.resolve(data);
           });
