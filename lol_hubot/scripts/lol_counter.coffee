@@ -9,7 +9,7 @@ Mixpanel = require('mixpanel')
 # create an instance of the mixpanel client
 mixpanel_api_key = process.env.STATBOT_MIXPANEL_KEY
 if mixpanel_api_key
-	mixpanel = Mixpanel.init(mixpanel_api_key)
+  mixpanel = Mixpanel.init(mixpanel_api_key)
 
 module.exports = (robot) ->
   robot.hear /COUNTER (.*)$/i, (msg) ->
