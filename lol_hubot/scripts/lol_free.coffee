@@ -5,7 +5,7 @@
 #   free - Reply with a list of free champions from NA
 #		free <region> - Reploy with a list of free champions for a given region. Valid regions include br, eune, euw, kr, lan, las, na, oce, ru, tr
 
-# TODO: how can i make this global?
+# TODO: how can i make this DRY?
 Mixpanel = require('mixpanel')
 # create an instance of the mixpanel client
 mixpanel_api_key = process.env.STATBOT_MIXPANEL_KEY
