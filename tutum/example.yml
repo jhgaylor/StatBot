@@ -23,4 +23,3 @@ api:
     - "redis:redis"
   environment:
     - LOL_API_KEY=KEY
-    - TEEMOJSON_API_KEY=KEY
