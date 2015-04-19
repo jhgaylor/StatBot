@@ -1,3 +1,4 @@
 tutum/production.yml
 *.sublime*
 local.sh
+dump.rdb
