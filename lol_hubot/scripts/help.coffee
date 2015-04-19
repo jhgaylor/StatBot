@@ -11,8 +11,61 @@
 # Notes:
 #   These commands are grabbed from comment blocks at the top of each file.
 
+helpContents = (name, commands) ->
+
+  """
+<html>
+  <head>
+  <title>#{name} Help</title>
+  <style type="text/css">
+    body {
+      background: #d3d6d9;
+      color: #636c75;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, .5);
+      font-family: Helvetica, Arial, sans-serif;
+    }
+    h1 {
+      margin: 8px 0;
+      padding: 0;
+    }
+    .commands {
+      font-size: 13px;
+    }
+    p {
+      border-bottom: 1px solid #eee;
+      margin: 6px 0 0 0;
+      padding-bottom: 5px;
+    }
+    p:last-child {
+      border: 0;
+    }
+  </style>
+  </head>
+  <body>
+    <h1>#{name} Help</h1>
+    <div class="commands">
+      #{commands}
+    </div>
+  </body>
+</html>
+  """
+
+# TODO: how can i make this DRY?
+Mixpanel = require('mixpanel')
+# create an instance of the mixpanel client
+mixpanel_api_key = process.env.STATBOT_MIXPANEL_KEY
+if mixpanel_api_key
+  mixpanel = Mixpanel.init(mixpanel_api_key)
+
 module.exports = (robot) ->
   robot.hear /help\s*(.*)?$/i, (msg) ->
+    user = msg.message.user
+    # track an event with optional properties
+    mixpanel and mixpanel.track("lolhubot:command", {
+      command: "help"
+      user_id: user.id
+    })
+    
     cmds = robot.helpCommands()
     filter = msg.match[1]
 
@@ -38,3 +91,15 @@ module.exports = (robot) ->
     emit = cmds.join "\n\n"
 
     msg.send emit
+  
+
+  robot.router.get "/#{robot.name}/help", (req, res) ->
+    cmds = robot.helpCommands().map (cmd) ->
+      cmd.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+
+    emit = "<p>#{cmds.join '</p><p>'}</p>"
+
+    emit = emit.replace /hubot/ig, "<b>#{robot.name}</b>"
+
+    res.setHeader 'content-type', 'text/html'
+    res.end helpContents robot.name, emit
