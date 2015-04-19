@@ -5,10 +5,10 @@ var DataSource = require('./DataSource');
 var Cache = require('./Cache')();
 // NOTE: remember to clean up the cache connection
 // TODO: come up with anything more elegant than this...
-setTimeout(function () {
-  console.log("cache quit because it was told to in src/DataSource");
-  Cache.quit();
-}, 5000);
+// setTimeout(function () {
+//   console.log("cache quit because it was told to in src/DataSource");
+//   Cache.quit();
+// }, 5000);
 
 var IreliaLib = require('irelia');
 var Irelia = new IreliaLib({
