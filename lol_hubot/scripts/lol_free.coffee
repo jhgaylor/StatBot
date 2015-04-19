@@ -13,11 +13,11 @@ module.exports = (robot) ->
     console.log(api_url)
     robot.http(api_url)
       .get() (err, res, body) ->
-      	if (err) {
-      		console.log "Error getting free champions", err
-      		msg.send "I'm sorry. I couldn't find this information."
-      		return;
-      	}
+        if (err) {
+          console.log "Error getting free champions", err
+          msg.send "I'm sorry. I couldn't find this information."
+          return;
+        }
         data = JSON.parse body
         console.log(body, data);
         msg.send "#{data.data.join(', ')}"
