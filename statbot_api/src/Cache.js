@@ -1,6 +1,6 @@
 var redis = require('redis');
 var Q = require('q');
-
+var url = require('url');
 // A function that returns a cache object. Each cache object
 // has an open connection to the cache server.
 // All the methods of the cache objects return a promise
@@ -8,8 +8,10 @@ var Q = require('q');
 var Cache = function () {
   // the redis handle is private.
   var CacheClient = (function () {
-    var REDIS_PORT = process.STATBOT_CACHE_PORT || 6379;
-    var REDIS_HOST = process.STATBOT_CACHE_HOST || '127.0.0.1';
+    // tcp://ip:port
+    var redis_info = url.parse(process.env.REDIS_PORT);
+    var REDIS_PORT = redis_info && redis_info.port || 6379;
+    var REDIS_HOST = redis_info && redis_info.hostname || '127.0.0.1';
     // TODO: grab options from env vars (I don't need to pass any right now but others might.)
     var client = redis.createClient(REDIS_PORT, REDIS_HOST, {});
     client.on("error", function (err) {
