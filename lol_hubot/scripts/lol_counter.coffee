@@ -2,7 +2,7 @@
 #   Utility commands surrounding Hubot uptime.
 #
 # Commands:
-#   hubot counter - Reply with a url to championselect.net
+#   counter - Reply with a url to championselect.net
 
 
 module.exports = (robot) ->

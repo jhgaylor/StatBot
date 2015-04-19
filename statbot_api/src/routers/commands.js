@@ -8,7 +8,7 @@ var request = require('request')
 var IreliaLib = require('irelia')
 var Irelia = new IreliaLib({
   secure: true,
-  host: 'prod.api.pvp.net',
+  host: 'na.api.pvp.net',
   path: '/api/lol/',
   key: process.env.LOL_API_KEY,
   debug: true
@@ -36,8 +36,8 @@ var getFreeChampions = function (region) {
   region = region || "na"
   var deferred = Q.defer();
   var freeToPlay = true;
-  Irelia.getChampions('euw', freeToPlay, function (err, res){
-    console.log(err, res);
+  Irelia.getChampions(region, freeToPlay, function (err, res){
+    console.log("get champs", err, res, region);
     if (err) {
       deferred.reject(err);
       return;
@@ -54,7 +54,9 @@ var getFreeChampions = function (region) {
 
 CommandsRouter.route('/free')
   .get( function (req, res) {
-    getFreeChampions().then(function (champs) {
+    region = req.params.region;
+    console.log(region);
+    getFreeChampions(region).then(function (champs) {
       res.send({
         command: "/commands/free",
         data: champs

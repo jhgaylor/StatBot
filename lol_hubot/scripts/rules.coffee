@@ -2,7 +2,7 @@
 #   Make sure that hubot knows the rules.
 #
 # Commands:
-#   hubot the rules - Make sure hubot still knows the rules.
+#   rules - Make sure hubot still knows the rules.
 #
 # Notes:
 #   DON'T DELETE THIS SCRIPT! ALL ROBAWTS MUST KNOW THE RULES
@@ -20,7 +20,7 @@ otherRules = [
   ]
 
 module.exports = (robot) ->
-  robot.hear /(what are )?the (three |3 )?(rules|laws)/i, (msg) ->
+  robot.hear /(what are )?(the )?(three |3 )?(rules|laws)/i, (msg) ->
     text = msg.message.text
     if text.match(/apple/i) or text.match(/dev/i)
       msg.send otherRules.join('\n')

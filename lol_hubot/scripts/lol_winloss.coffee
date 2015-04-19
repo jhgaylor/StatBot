@@ -2,7 +2,7 @@
 #   Utility commands surrounding Hubot uptime.
 #
 # Commands:
-#   hubot free - Reply with a list of free champions for NA
+#   winloss - Broken!!!
 
 # processes the api response body and sends the appropriate message
 #########BROKEN
