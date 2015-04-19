@@ -65,7 +65,7 @@ module.exports = (robot) ->
       command: "help"
       user_id: user.id
     })
-    
+
     cmds = robot.helpCommands()
     filter = msg.match[1]
 
@@ -75,7 +75,7 @@ module.exports = (robot) ->
       if cmds.length == 0
         msg.send "No available commands match #{filter}"
         return
-    
+
     # exclude help text that expects the bots name to be present
     # ie: "robot.respond" but actually based on the help text in the docs
     cmds = cmds.filter (cmd) ->
@@ -90,8 +90,8 @@ module.exports = (robot) ->
 
     emit = cmds.join "\n\n"
 
-    msg.send emit
-  
+    msg.send "Help:\n"+emit
+
 
   robot.router.get "/#{robot.name}/help", (req, res) ->
     cmds = robot.helpCommands().map (cmd) ->
