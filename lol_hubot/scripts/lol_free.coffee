@@ -13,5 +13,5 @@ module.exports = (robot) ->
     robot.http(api_url)
       .get() (err, res, body) ->
         data = JSON.parse body
-      	console.log(body, data);
+        console.log(body, data);
         msg.send "#{data.data.join(', ')}"
