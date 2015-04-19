@@ -5,6 +5,8 @@ var Q = require('q');
 var async = require('async')
 var request = require('request')
 
+var Commands = require('../Commands');
+
 var IreliaLib = require('irelia')
 var Irelia = new IreliaLib({
   secure: true,
@@ -32,31 +34,11 @@ _.each(LOLCHAMPIONSDATA, function (e, i ,l) {
 //   });
 // }
 
-var getFreeChampions = function (region) {
-  region = region || "na"
-  var deferred = Q.defer();
-  var freeToPlay = true;
-  Irelia.getChampions(region, freeToPlay, function (err, res){
-    console.log("get champs", err, res, region);
-    if (err) {
-      deferred.reject(err);
-      return;
-    }
-    var champion_names = _.pluck(res.champions, 'id').map(function (id) {
-      return LOL_ID_TO_NAME[id];
-    });
-    console.log(champion_names);
-    deferred.resolve(champion_names)
-  });
-  return deferred.promise
-}
-
-
 CommandsRouter.route('/free')
   .get( function (req, res) {
     region = req.params.region;
     console.log(region);
-    getFreeChampions(region).then(function (champs) {
+    Commands.free.run({region: region}).then(function (champs) {
       res.send({
         command: "/commands/free",
         data: champs

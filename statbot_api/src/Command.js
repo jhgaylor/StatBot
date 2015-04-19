@@ -22,7 +22,6 @@ var Command = function (data_sources, buildFn) {
         if (location) {
           if (key in location) {
             location = location[key]
-            console.log("can't find this location", source_key, key, location)
             return;
           }
         } else {
