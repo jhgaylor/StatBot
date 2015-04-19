@@ -12,13 +12,13 @@ var Cache = function () {
     var REDIS_HOST = process.STATBOT_CACHE_HOST || '127.0.0.1';
     // TODO: grab options from env vars (I don't need to pass any right now but others might.)
     var client = redis.createClient(REDIS_PORT, REDIS_HOST, {});
-    client.on("error", (err) {
+    client.on("error", function (err) {
       console.log("Redis client threw error: ", err)
       throw err;
     });
     return client;
   })();
-  
+
   return {
     // a promise to return the value held at `key`
     get: function (key) {
