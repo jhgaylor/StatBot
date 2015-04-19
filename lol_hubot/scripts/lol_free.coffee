@@ -3,7 +3,7 @@
 #
 # Commands:
 #   free - Reply with a list of free champions from NA
-#		free <region> - Reploy with a list of free champions for a given region
+#		free <region> - Reploy with a list of free champions for a given region. Valid regions include br, eune, euw, kr, lan, las, na, oce, ru, tr
 
 module.exports = (robot) ->
   robot.hear /^FREE\s*(.*)?$/i, (msg) ->

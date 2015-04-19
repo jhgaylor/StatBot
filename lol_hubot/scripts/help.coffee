@@ -35,6 +35,6 @@ module.exports = (robot) ->
       cmd.replace /hubot/ig, robot.name
 
 
-    emit = cmds.join "\n"
+    emit = cmds.join "\n\n"
 
     msg.send emit
