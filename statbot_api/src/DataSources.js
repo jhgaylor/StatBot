@@ -38,7 +38,7 @@ var ONE_WEEK = ONE_DAY * 7;
 // TODO: be able to register data sources from anywhere in the app (preferably all from src/datasources/)
 // define the data sources
 var DataSources = {
-  riot:{
+  riot: {
     free_champions: DataSource('riot_free_champions', ONE_DAY, Cache,
       function (opts, done) {
         // grabs the free champion list from an unofficial api
@@ -55,7 +55,7 @@ var DataSources = {
           var champion_names = _.pluck(res.champions, 'id').map(function (id) {
             return LOL_ID_TO_NAME[id];
           });
-          console.log(champion_names);
+          // console.log(champion_names);
           done(null, champion_names)
         });
       }
