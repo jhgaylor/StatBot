@@ -36,6 +36,9 @@ module.exports = (robot) ->
       command: command
       user_id: user.id
       summoner_name: user.summoner_name
+      champion_name: champion_name
+      region: region
+      season: season
 
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN
     api_url = "http://#{API_FQDN}/commands/stats"
