@@ -32,7 +32,7 @@ var DataSources = {
   riot: {
     static_champions_data: DataSource('riot_static_champions_data', ONE_WEEK, Cache,
       function (opts, done) {
-        var region = opts.region;
+        var region = opts.region|| "na";
         LolApi.Static.getChampionList({}, region)
           .then(function (champs) {
             // console.log("got champs data", champs.data);

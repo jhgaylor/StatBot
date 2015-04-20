@@ -30,10 +30,11 @@ module.exports = (robot) ->
         region: region
       })
       .get() (err, res, body) ->
-        if err
-          console.log "Error getting free champions", err
+        unless err
+          data = JSON.parse body
+        if err || data.error
+          console.log "Error getting free champions", err || data.error
           msg.send "I'm sorry. I couldn't find this information."
           return;
-        data = JSON.parse body
         console.log(body, data);
         msg.send "#{data.data.join(', ')}"
