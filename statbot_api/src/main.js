@@ -27,3 +27,14 @@ var PORT = 3000;
 var server = app.listen( PORT, function () {
   console.log("Listening: "+server.address().port);
 });
+
+// d = require('./DataSources');
+// d.riot.ranked_stats.get({summoner_name:"igetkills", region:"na"})
+//   .then(function(res) {
+//     console.log("res", res);
+//   })
+// c = require('./Commands');
+// c.win_loss.run({summoner_name:"igetkills", region:"na", champion_name:"varus", season:"3"})
+//   .then(function(res) {
+//     console.log("res", res);
+//   })
