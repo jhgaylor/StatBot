@@ -29,12 +29,12 @@ var server = app.listen( PORT, function () {
 });
 
 // d = require('./DataSources');
-// d.riot.ranked_stats.get({summoner_name:"igetkills", region:"na"})
+// d.championselect.counters.get({champion_name:"annie"})
 //   .then(function(res) {
 //     console.log("res", res);
 //   })
 // c = require('./Commands');
-// c.win_loss.run({summoner_name:"igetkills", region:"na", champion_name:"varus", season:"3"})
+// c.counters.run({champion_name:"annie"})
 //   .then(function(res) {
 //     console.log("res", res);
 //   })
