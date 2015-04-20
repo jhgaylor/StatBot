@@ -22,17 +22,16 @@ CommandsRouter.route('/free')
 CommandsRouter.route('/counters')
   .get( function (req, res) {
     var champion_name = req.query.champion_name;
-    Commands.counters.run({champion_name: champion_name})
+    var commandPromise = Commands.counters.run({champion_name: champion_name})
       .then( function (results) {
-        console.log("!!!", results)
         res.send({
           command: "/commands/counter",
           data: results
         });
       })
-      .catch( function (err) {
-        res.send({ error: res });
-      });
+    commandPromise.catch( function (err) {
+      res.status(400).send({ error: err });
+    });
   });
 
 CommandsRouter.route('/stats')

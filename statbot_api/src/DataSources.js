@@ -151,6 +151,10 @@ var DataSources = {
 
             var html = b.html();
             done(null, html);
+          })
+          .catch(function (err) {
+            b.destroy();
+            done(err);
           });
       }
     ),

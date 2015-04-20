@@ -35,12 +35,12 @@ module.exports = (robot) ->
         champion_name: champion_name
       })
       .get() (err, res, body) ->
-        if err
-          console.log "Error getting counters", err
+        unless err
+          data = JSON.parse body
+        if err || data.error
+          console.log "Error getting counters", (err || data.error)
           msg.send "I'm sorry. I couldn't find this information."
           return;
-        data = JSON.parse body
-        console.log(body, data);
 
         counters = data.data
         unless argv.verbose

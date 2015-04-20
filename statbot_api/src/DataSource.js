@@ -46,6 +46,9 @@ function DataSource (name, timeout, cache, getterFn, keyFn) {
             // store the data as a json string
             cache.set(key, JSON.stringify(data), this.timeout);
             dataDeferred.resolve(data);
+          })
+          .catch(function (err) {
+            dataDeferred.reject(err);
           });
         });
       }
