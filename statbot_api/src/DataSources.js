@@ -94,6 +94,22 @@ var DataSources = {
           });
       }
     ),
+    summoner_name: DataSource('riot_summoner_name', ONE_WEEK, Cache,
+      function (opts, done) {
+        var summoner_id = opts.summoner_id
+        var region = opts.region || "na"
+        LolApi.Summoner.getByID(summoner_id, region)
+          .then(function (data) {
+            console.log(data);
+            var name = data && data[summoner_id].name;
+            done(null, name);
+          })
+          .catch(function (err) {
+            console.log("err getting summoner id", err)
+            done(err);
+          });
+      }
+    ),
     ranked_stats: DataSource('riot_ranked_stats', ONE_HOUR, Cache,
       function (opts, done) {
         var summoner_name = opts.summoner_name;
