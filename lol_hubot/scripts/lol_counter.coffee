@@ -2,7 +2,7 @@
 #   A report of champions to counter another champion
 #
 # Commands:
-#   counter <champion_name> - Reply with a list of recommended counters to a given champion. The data comes from championselect.net
+#   counter <champion_name> - Reply with a list of recommended counters to a given champion. The data comes from championselect.net **Options:**  --verbose (-v): show more results**  --lane (-l): *future*
 
 module.exports = (robot) ->
   robot.hear /COUNTER /i, (msg) ->

@@ -2,7 +2,7 @@
 #   A list of useful links regarding a champion
 #
 # Commands:
-#   links <champion_name> - Reply with useful urls
+#   links <champion_name> - Reply with useful urls. **Options:**  --verbose (-v): show more results**
 
 module.exports = (robot) ->
   robot.hear /^(links|l)/i, (msg) ->
