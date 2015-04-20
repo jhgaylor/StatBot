@@ -6,11 +6,27 @@ var Q = require('q');
 
 CommandsRouter.route('/free')
   .get( function (req, res) {
-    region = req.params.region;
+    var region = req.query.region;
     Commands.free.run({region: region})
       .then( function (results) {
         res.send({
           command: "/commands/free",
+          data: results
+        });
+      })
+      .catch( function (err) {
+        res.send({ error: res });
+      });
+  });
+
+CommandsRouter.route('/counters')
+  .get( function (req, res) {
+    var champion_name = req.query.champion_name;
+    Commands.counters.run({champion_name: champion_name})
+      .then( function (results) {
+        console.log("!!!", results)
+        res.send({
+          command: "/commands/counter",
           data: results
         });
       })
@@ -52,3 +68,4 @@ CommandsRouter.route('/stats')
   });
 
 module.exports = CommandsRouter;
+
