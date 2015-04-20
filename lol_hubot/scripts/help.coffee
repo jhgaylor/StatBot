@@ -10,6 +10,7 @@
 #
 # Notes:
 #   These commands are grabbed from comment blocks at the top of each file.
+_ = require 'underscore'
 
 helpContents = (name, commands) ->
 
@@ -97,7 +98,7 @@ module.exports = (robot) ->
     cmds.forEach (cmd) ->
       msg.send "#{cmd}\n"
     msg.send "All available commands: "
-    msg.send cmdNames.join(', ')
+    msg.send _.unique(cmdNames).join(', ')
 
 
   robot.router.get "/#{robot.name}/help", (req, res) ->
