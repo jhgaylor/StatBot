@@ -1,4 +1,4 @@
-FROM iojs:onbuild
+FROM node:0.10.32
 MAINTAINER Jake Gaylor <jhgaylor@gmail.com>
 
 ADD . /lolhubot
