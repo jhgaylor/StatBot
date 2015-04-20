@@ -1,5 +1,5 @@
 # Description:
-#   Utility commands surrounding Hubot uptime.
+#   A report on champions to counter other champions
 #
 # Commands:
 #   counter - Reply with a url to championselect.net
@@ -12,5 +12,6 @@ module.exports = (robot) ->
       command: "counter"
       text: msg.message.text
       user_id: user.id
+      summoner_name: user.summoner_name
     champion_name = msg.match[1]
     msg.send "http://championselect.net/champ/#{champion_name}"

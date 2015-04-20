@@ -4,7 +4,6 @@
 # Commands:
 #   stats <handle> [<champion>] - return the win/loss ratio for a player [and champion]. **Options:**  --season: one of [2015, 2014, 3]**  --region: country code
 
-# processes the api response body and sends the appropriate message
 _ = require 'underscore'
 
 module.exports = (robot) ->
@@ -36,6 +35,7 @@ module.exports = (robot) ->
     robot.mixpanel and robot.mixpanel.track "lolhubot:command",
       command: command
       user_id: user.id
+      summoner_name: user.summoner_name
 
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN
     api_url = "http://#{API_FQDN}/commands/stats"

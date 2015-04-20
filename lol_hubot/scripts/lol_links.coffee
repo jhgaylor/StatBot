@@ -1,9 +1,8 @@
-
 # Description:
 #   A list of useful links regarding a champion
 #
 # Commands:
-#   links <champion_name> - Reply with a url to championselect.net
+#   links <champion_name> - Reply with useful urls
 
 module.exports = (robot) ->
   robot.hear /links (.*)$/i, (msg) ->
@@ -13,6 +12,7 @@ module.exports = (robot) ->
       command: "links"
       text: msg.message.text
       user_id: user.id
+      summoner_name: user.summoner_name
     champion_name = msg.match[1]
     msg.send "http://championselect.net/champ/#{champion_name}"
     msg.send "http://champion.gg/champion/#{champion_name}"

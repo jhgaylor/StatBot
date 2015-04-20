@@ -5,13 +5,6 @@
 #   free - Reply with a list of free champions from NA
 #		free <region> - Reploy with a list of free champions for a given region. Valid regions include br, eune, euw, kr, lan, las, na, oce, ru, tr
 
-# TODO: how can i make this DRY?
-Mixpanel = require('mixpanel')
-# create an instance of the mixpanel client
-mixpanel_api_key = process.env.STATBOT_MIXPANEL_KEY
-if mixpanel_api_key
-	mixpanel = Mixpanel.init(mixpanel_api_key)
-
 module.exports = (robot) ->
   robot.hear /^FREE\s*(.*)?$/i, (msg) ->
     user = msg.message.user
@@ -19,6 +12,7 @@ module.exports = (robot) ->
     robot.mixpanel and robot.mixpanel.track "lolhubot:command",
       command: "free"
       user_id: user.id
+      summoner_name: user.summoner_name
     msg.send "Free Champs:"
     # TODO: this needs to be more dry
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN
