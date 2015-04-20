@@ -21,7 +21,6 @@ module.exports = (robot) ->
     summoner_name = argv._[1]
     champion_name = argv._[2]
     region = argv.region
-    # if season is set, prepend it with the word SEASON
     season = argv.season
 
     queryObj =
@@ -46,6 +45,7 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         if (err)
           console.log "got an err", err
+          msg.send "I've experienced difficulties fulfilling your request."
           return;
         console.log "body", body
         data = JSON.parse(body).data
