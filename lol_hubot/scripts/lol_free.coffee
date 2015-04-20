@@ -16,10 +16,9 @@ module.exports = (robot) ->
   robot.hear /^FREE\s*(.*)?$/i, (msg) ->
     user = msg.message.user
     # track an event with optional properties
-    mixpanel and mixpanel.track("lolhubot:command", {
+    robot.mixpanel and robot.mixpanel.track "lolhubot:command",
       command: "free"
       user_id: user.id
-    })
     msg.send "Free Champs:"
     # TODO: this needs to be more dry
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN

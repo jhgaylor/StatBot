@@ -9,12 +9,6 @@
 
 
 _ = require 'underscore'
-# TODO: how can i make this DRY?
-Mixpanel = require('mixpanel')
-# create an instance of the mixpanel client
-mixpanel_api_key = process.env.STATBOT_MIXPANEL_KEY
-if mixpanel_api_key
-  mixpanel = Mixpanel.init(mixpanel_api_key)
 
 module.exports = (robot) ->
 
@@ -22,12 +16,10 @@ module.exports = (robot) ->
     summoner_name = msg.match[1]
     champion_name = msg.match[2]
     user = msg.message.user
-    # track an event with optional properties
-    mixpanel and mixpanel.track("lolhubot:command", {
-      command: "free"
+    # track an event with optional properties if mixpanel was initialized
+    robot.mixpanel and robot.mixpanel.track "lolhubot:command",
+      command: command
       user_id: user.id
-    })
-    # TODO: this needs to be more dry
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN
     # TODO: how to do unordered, optional parameters. i dont want to have to
     #   set a champion to set a season or region
