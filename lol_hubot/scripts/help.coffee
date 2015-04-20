@@ -65,6 +65,7 @@ module.exports = (robot) ->
     mixpanel and mixpanel.track("lolhubot:command", {
       command: "help"
       user_id: user.id
+      summoner_name: user.summoner_name
     })
 
     cmds = robot.helpCommands()
