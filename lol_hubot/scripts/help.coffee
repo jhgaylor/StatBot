@@ -84,13 +84,20 @@ module.exports = (robot) ->
 
     prefix = robot.alias or robot.name
     cmds = cmds.map (cmd) ->
+      # replace references to hubot with this StatBot
       cmd = cmd.replace /^hubot/, prefix
-      cmd.replace /hubot/ig, robot.name
+      cmd = cmd.replace /hubot/ig, robot.name
+      # replace ** w/ a new line.
+      return cmd.replace /\*\*/g, "\n"
 
+    cmdNames = cmds.map (cmd) ->
+      return cmd.split(' ')[0]
 
-    emit = cmds.join "\n\n"
-
-    msg.send "Help:\n"+emit
+    msg.send "Help:"
+    cmds.forEach (cmd) ->
+      msg.send "#{cmd}\n"
+    msg.send "All available commands: "
+    msg.send cmdNames.join(', ')
 
 
   robot.router.get "/#{robot.name}/help", (req, res) ->
