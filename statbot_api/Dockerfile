@@ -1,4 +1,4 @@
-FROM node:0.10.32
+FROM iojs:onbuild
 MAINTAINER Jake Gaylor <jhgaylor@gmail.com>
 
 ADD . /statbot_api
