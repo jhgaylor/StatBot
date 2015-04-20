@@ -3,6 +3,8 @@ var _ = require('underscore');
 var DataSource = require('./DataSource');
 
 var Cache = require('./Cache')();
+
+var Browser = require('zombie');
 // NOTE: remember to clean up the cache connection
 // TODO: come up with anything more elegant than this...
 // setTimeout(function () {
@@ -132,6 +134,24 @@ var DataSources = {
               done(err);
             });
         });
+      }
+    ),
+  },
+  championselect: {
+    champion: DataSource('championselect_champpage', ONE_WEEK, Cache,
+      function (opts, done) {
+        var champion_name = opts.champion_name;
+        if(! champion_name || champion_name.length === 0){
+          done(new Error("No champion name provided."))
+        }
+        var b = new Browser({site: 'http://www.championselect.net', waitDuration:'10s', runScripts: false})
+        b.visit('/champ/'+champion_name)
+          .then(function () {
+            console.log("champ select loaded");
+
+            var html = b.html();
+            done(null, html);
+          });
       }
     ),
   }
