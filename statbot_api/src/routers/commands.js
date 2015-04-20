@@ -1,11 +1,8 @@
 var CommandsRouter = require('express').Router();
-
+var Commands = require('../Commands');
 var _ = require('underscore')
 var Q = require('q');
-var async = require('async')
-var request = require('request')
 
-var Commands = require('../Commands');
 
 CommandsRouter.route('/free')
   .get( function (req, res) {
