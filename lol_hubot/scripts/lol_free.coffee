@@ -19,7 +19,8 @@ module.exports = (robot) ->
       summoner_name: user.summoner_name
       region: region
     msg.send "Free Champs:"
-    # TODO: this needs to be more dry
+    # TODO: this process of making an http request to the statbotapi server
+    #  needs to be more dry
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN
     # console.log "region #{region}"
     api_url = "http://#{API_FQDN}/commands/free"
