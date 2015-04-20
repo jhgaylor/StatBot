@@ -5,7 +5,7 @@
 #   links <champion_name> - Reply with useful urls
 
 module.exports = (robot) ->
-  robot.hear /^(links |l )/i, (msg) ->
+  robot.hear /^(links|l)/i, (msg) ->
     argv = robot.optionParser msg.message.text.split(' '),
       alias:
         verbose: "v"
@@ -13,6 +13,11 @@ module.exports = (robot) ->
     user = msg.message.user
     command = argv._[0]
     champion_name = argv._[1]
+
+    unless champion_name
+      # TODO: output the help text for this command
+      msg.send "Please specify a champion name. ie `links annie`"
+      return
 
     # track an event with optional properties
     robot.mixpanel and robot.mixpanel.track "lolhubot:command",

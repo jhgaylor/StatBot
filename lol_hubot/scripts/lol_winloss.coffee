@@ -22,6 +22,11 @@ module.exports = (robot) ->
     region = argv.region
     season = argv.season
 
+    unless summoner_name
+      # TODO: output the help text for this command
+      msg.send "Please specify a summoner name. ie `stats igetkills`"
+      return
+
     queryObj =
       summoner_name: summoner_name
       champion_name: champion_name

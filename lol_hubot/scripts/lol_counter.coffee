@@ -9,6 +9,11 @@ module.exports = (robot) ->
     argv = robot.optionParser msg.message.text.split(' ')
     champion_name = argv._[1]
 
+    unless champion_name
+      # TODO: output the help text for this command
+      msg.send "Please specify a champion name. ie `links annie`"
+      return
+
     user = msg.message.user
     # track an event with optional properties
     robot.mixpanel and robot.mixpanel.track "lolhubot:command",
