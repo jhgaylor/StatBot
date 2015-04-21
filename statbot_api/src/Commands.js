@@ -52,7 +52,7 @@ Commands = {
                   return spellName;
                 }).get(),
                 carry: !! $el.find('td.CarryPower i.icon-bolt').length,
-                current_rank: $el.find('td.TierRank').text().split("(")[0],
+                current_rank: $el.find('td.TierRank').text().split("(")[0].trim(),
                 previous_rank: previousRankName,
                 ranked_win_ratio: $el.find('td.WinRatio .ratio').text(),
                 ranked_games_played: $el.find('td.WinRatio span').text().split(" ")[0].replace("(", "").trim(),
