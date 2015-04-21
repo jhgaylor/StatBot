@@ -37,14 +37,19 @@ Commands = {
               // el is tr.Champion
               $el = $(el);
               var previousRankImgUrl = $el.find('td.PreviousTierRank img').attr('src');
-              var parts = previousRankImgUrl.split('/');
-              var fullFileName = parts[parts.length-1];
-              var fileName = fullFileName.split('.')[0];
-              var previousRankName = fileName.replace('_', " ");
+              if(previousRankImgUrl) {
+                var parts = previousRankImgUrl.split('/');
+                var fullFileName = parts[parts.length-1];
+                var fileName = fullFileName.split('.')[0];
+                var previousRankName = fileName.replace('_', " ");
+              }
               return {
                 name: $el.find('.SummonerName a').text(),
                 spells: $el.find('.championSpell .spell img').map(function (i, el) {
                   var url = $(el).attr('src');
+                  if(! url){
+                    return;
+                  }
                   var parts = url.split('/');
                   var fullFileName = parts[parts.length-1];
                   var fileName = fullFileName.split('.')[0];
