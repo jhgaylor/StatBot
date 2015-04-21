@@ -37,7 +37,8 @@ CommandsRouter.route('/champions_names')
 CommandsRouter.route('/counters')
   .get( function (req, res) {
     var champion_name = req.query.champion_name;
-    var commandPromise = Commands.counters.run({champion_name: champion_name})
+    var lane = req.query.lane;
+    var commandPromise = Commands.counters.run({champion_name: champion_name, lane: lane})
       .then( function (results) {
         res.send({
           command: "/commands/counter",
@@ -77,6 +78,42 @@ CommandsRouter.route('/stats')
       })
       .catch( function (err) {
         console.log("command err", err)
+        res.send({ error: res });
+      });
+  });
+
+CommandsRouter.route('/best')
+  .get( function (req, res) {
+    var summoner_name = req.query.summoner_name.toLowerCase();
+    var champion_name = req.query.champion_name.toLowerCase();
+    var region = req.query.region;
+    var season = req.query.season;
+    var worst = req.query.worst;
+    if (! summoner_name) {
+      res.send({
+        command: "/commands/best",
+        error: "Please send `summoner` parameter."
+      });
+      return;
+    }
+    Commands.best.run({
+        summoner_name: summoner_name,
+        champion_name: champion_name,
+        season: season,
+        region: region
+      })
+      .then( function (results) {
+        console.log("command returned", results)
+        if (worst) {
+          results.reverse();
+        }
+        res.send({
+          command: "/commands/win_loss",
+          data: results
+        });
+      })
+      .catch( function (err) {
+        console.log("command err", err, err.stack)
         res.send({ error: res });
       });
   });

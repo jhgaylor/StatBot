@@ -11,11 +11,12 @@ var cheerio = require('cheerio');
 Commands = {
   counters: Command(['championselect.champion'], function (opts, dataSourceGetters) {
     var results_promise = dataSourceGetters['championselect.champion'](opts)
+    var lane = opts.lane || "all";
     results_promise = results_promise.then(function (html) {
       // extract the data from the html
       var $ = cheerio.load(html);
       // TODO: extend to work for specified lanes by replacing _general
-      var $champs = $('._all .weak-block .champ-block .left.theinfo');
+      var $champs = $('._'+lane+' .weak-block .champ-block .left.theinfo');
       var counters = [];
       $champs.each(function (i, el) {
         $el = $(el);
@@ -65,45 +66,73 @@ Commands = {
     var results_promise = Q.all([stats_promise, champions_data_promise])
       .spread(function (statsPerChampion, lookups){
         // console.log("command received", statsPerChampion, lookups);
-        var champions = [];
-        var wins = 0;
-        var losses = 0;
+        var wins = null;
+        var losses = null;
 
-        if(opts.champion_name) {
-          // only calculate the stats for the champion in question
-          championId = lookups.lookupByName[opts.champion_name];
-          if (! championId) {
-            return {error: "Invalid champion name provided"};
-          }
-          // find the champion matching the id from the stats
-          var champ = _.find(statsPerChampion, function (el) {
-            return el.id == championId
-          });
-          if (champ) {
-            wins = champ.stats.totalSessionsWon
-            losses = champ.stats.totalSessionsLost
-          }
-        } else {
-          // calculate stats for all champions
-          _.each(statsPerChampion, function (champion, championId) {
-            // TODO: take into consideration champion_name if set
-            _.each(champion.stats, function (val, key, obj) {
-              if (key === "totalSessionsWon") {
-                wins += val;
-              }
 
-              if (key === "totalSessionsLost") {
-                losses += val;
-              }
-            });
-          });
+        // only calculate the stats for the champion in question
+        // or in the case of no provided champion name, the 0 id
+        // which is the aggregate stats
+        championId = lookups.lookupByName[opts.champion_name] || 0;
+        // find the champion matching the id from the stats
+        var champ = _.find(statsPerChampion, function (el) {
+          return el.id == championId
+        });
+        if (champ) {
+          wins = champ.stats.totalSessionsWon
+          losses = champ.stats.totalSessionsLost
         }
 
         return {
           wins: wins,
           losses: losses,
-          winRate: ((wins/(wins+losses))*100).toFixed(2)
+          winRate: wins && losses && ((wins/(wins+losses))*100).toFixed(2)
         };
+      });
+    return results_promise;
+  }),
+  best: Command(['riot.ranked_stats', 'riot.static_champions_data'], function (opts, dataSourceGetters) {
+    console.log(opts)
+    var stats_promise = dataSourceGetters['riot.ranked_stats'](opts);
+    var champions_data_promise = dataSourceGetters['riot.static_champions_data'](opts);
+    // wait for all data sources and call a handler to
+    var results_promise = Q.all([stats_promise, champions_data_promise])
+      .spread(function (rawStatsPerChampion, lookups){
+        // console.log("command received", rawStatsPerChampion, lookups);
+        // console.log(rawStatsPerChampion);
+        // calculate stats for all champions
+        // loop over all the champions and create an array of calculated stats
+        var champStats = []
+        _.each(rawStatsPerChampion, function (champion) {
+          var championId = champion.id;
+          if(championId == 0) {
+            return;
+          }
+          // TODO: take into consideration champion_name if set
+          var wins = 0;
+          var losses = 0;
+          // loop over the provided stats
+          _.each(champion.stats, function (val, key, obj) {
+            if (key === "totalSessionsWon") {
+              wins += val;
+            }
+            if (key === "totalSessionsLost") {
+              losses += val;
+            }
+          });
+          champStats.push({
+            id: championId,
+            name: lookups.lookupById[championId],
+            wins: wins,
+            losses: losses,
+            winRate: ((wins/(wins+losses))*100).toFixed(2)
+          });
+        });
+        // sort descending
+        var top = _.sortBy(champStats, function (champ) {
+          return -1 * parseFloat(champ.winRate);
+        })
+        return top;
       });
     return results_promise;
   }),
