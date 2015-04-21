@@ -2,7 +2,10 @@ var Command = require('./Command');
 
 var _ = require('underscore')
 var Q = require('q');
-
+var log = logentries.logger({
+  token: process.env.LOGENTRIES_API_KEY,
+});
+log.level("debug");
 // serverside implementation of the jQuery api
 var cheerio = require('cheerio');
 // NOTE: For each data_source listed, there will be a key accessible in

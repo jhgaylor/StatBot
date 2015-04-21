@@ -1,22 +1,30 @@
 _ = require('underscore')
 ltx = require 'ltx'
+logentries = require('le_node')
 module.exports = (robot) ->
+  # attach logentries logger
+  robot.log = logentries.logger
+    token: process.env.LOGENTRIES_API_KEY
+  robot.log.level("debug")
+  robot.log.debug "Logger attached to robot."
   # Attach mixpanel to the robot
   MixpanelLib = require('mixpanel')
   # create an instance of the mixpanel client
   mixpanel_api_key = process.env.STATBOT_MIXPANEL_KEY
   if mixpanel_api_key
     robot.mixpanel = MixpanelLib.init(mixpanel_api_key)
-
+    robot.log.debug "Mixpanel attached to robot."
   # attach minimist, an option parser to the robot
   robot.optionParser = require('minimist');
-
+  robot.log.debug "Option parser attached to robot."
+  # Send a presence to a user after it subscribes to the bot (friends it)
+  # Without this the bot would have to be restarted to let new friends know it is online
   # move the old function
   robot.adapter._readPresence = robot.adapter.readPresence
   # wrap it in something to send the necessary presence to be seen online
   robot.adapter.readPresence = (stanza) ->
     if stanza.attrs.type is "subscribe"
-      console.log "received a subscribe. this is where you log gaining a new friend."
+      robot.log.info "Received subscribe presence. Got a new friend :)"
       # TODO: record the friending somewhere where we can annotate it a bit better (summoner_name)
       #   as well as record a successful referral if it was one
       # tracks a mixpanel event of gaining a friend
@@ -37,6 +45,7 @@ module.exports = (robot) ->
         id: i
         name: e.summoner_name
       }
+    robot.log.info(users_data)
     console.log(users_data)
   logUserData()
   setInterval(logUserData, 60000)
@@ -52,7 +61,7 @@ module.exports = (robot) ->
       unless err
         data = JSON.parse body
       if err || data.error
-        console.log "Error getting list champions", err || data.error
+        robot.log.error "Error getting list champions", err || data.error
         return;
       CHAMPIONS_NAMES = data.data;
 

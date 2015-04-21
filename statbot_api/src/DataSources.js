@@ -1,7 +1,10 @@
 var request = require('request');
 var _ = require('underscore');
 var DataSource = require('./DataSource');
-
+var log = logentries.logger({
+  token: process.env.LOGENTRIES_API_KEY,
+});
+log.level("debug");
 var Cache = require('./Cache')();
 
 var Browser = require('zombie');
@@ -32,6 +35,7 @@ var DataSources = {
   riot: {
     static_champions_data: DataSource('riot_static_champions_data', ONE_WEEK, Cache,
       function (opts, done) {
+        log.debug("DataSource:riot_static_champions_data called")
         var region = opts.region|| "na";
         LolApi.Static.getChampionList({}, region)
           .then(function (champs) {
@@ -55,6 +59,7 @@ var DataSources = {
     ),
     champions: DataSource('riot_champions', ONE_DAY, Cache,
       function (opts, done) {
+        log.debug("DataSource:riot_champions called")
         // grabs the (free) champion list from an unofficial api
         // use opts to make an http request and return some data
         // do async work and call the done cb
@@ -83,6 +88,7 @@ var DataSources = {
     ),
     summoner_id: DataSource('riot_summoner_id', ONE_WEEK, Cache,
       function (opts, done) {
+        log.debug("DataSource:riot_summoner_id called")
         var summoner_name = opts.summoner_name
         var region = opts.region || "na"
         LolApi.Summoner.getByName(summoner_name, region)
@@ -98,6 +104,7 @@ var DataSources = {
     ),
     summoner_name: DataSource('riot_summoner_name', ONE_WEEK, Cache,
       function (opts, done) {
+        log.debug("DataSource:riot_summoner_name called")
         var summoner_id = opts.summoner_id
         var region = opts.region || "na"
         LolApi.Summoner.getByID(summoner_id, region)
@@ -114,6 +121,7 @@ var DataSources = {
     ),
     ranked_stats: DataSource('riot_ranked_stats', ONE_HOUR, Cache,
       function (opts, done) {
+        log.debug("DataSource:riot_ranked_stats called")
         var summoner_name = opts.summoner_name;
         var region = opts.region || "na";
         var season = opts.season || "2015"
@@ -142,6 +150,7 @@ var DataSources = {
     // the user is not in a game.
     overview: DataSource('opgg_overview', ONE_MINUTE*5, Cache,
       function (opts, done) {
+        log.debug("DataSource:opgg_overview called")
         var summoner_name = opts.summoner_name;
         var region = opts.region || "na"
         if(! summoner_name || summoner_name.length === 0){
@@ -174,6 +183,7 @@ var DataSources = {
   championselect: {
     champion: DataSource('championselect_champpage', ONE_WEEK, Cache,
       function (opts, done) {
+        log.debug("DataSource:championselect_champpage called")
         var champion_name = opts.champion_name;
         if(! champion_name || champion_name.length === 0){
           done(new Error("No champion name provided."))

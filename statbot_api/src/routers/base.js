@@ -2,6 +2,10 @@ var BaseRouter = require('express').Router();
 var DataSources = require('../DataSources');
 var _ = require('underscore')
 var Q = require('q');
+var log = logentries.logger({
+  token: process.env.LOGENTRIES_API_KEY,
+});
+log.level("debug");
 
 BaseRouter.route('/')
   .get(function (err, res) {

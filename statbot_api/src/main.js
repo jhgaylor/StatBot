@@ -1,5 +1,9 @@
 // Bootstraps the application and serve the express app
-
+var logentries = require('le_node');
+var log = logentries.logger({
+  token: process.env.LOGENTRIES_API_KEY,
+});
+log.level("debug");
 // import the routers
 var BaseRouter = require('./routers/base');
 var CommandsRouter = require('./routers/commands');
@@ -25,7 +29,8 @@ var PORT = 3000;
 
 // start up the server
 var server = app.listen( PORT, function () {
-  console.log("Listening: "+server.address().port);
+  log.info("Listening: "+server.address().port);
+  console.log("Listening: "+server.address().port)
 });
 
 // d = require('./DataSources');

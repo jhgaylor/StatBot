@@ -2,7 +2,11 @@ var CommandsRouter = require('express').Router();
 var Commands = require('../Commands');
 var _ = require('underscore')
 var Q = require('q');
-
+var logentries = require('le_node');
+var log = logentries.logger({
+  token: process.env.LOGENTRIES_API_KEY,
+});
+log.level("debug");
 
 CommandsRouter.route('/summoner_id')
   .get( function (req, res) {
@@ -15,6 +19,7 @@ CommandsRouter.route('/summoner_id')
         });
       })
       .catch( function (err) {
+        log.err(err);
         res.send({ error: res });
       });
   });
@@ -23,6 +28,7 @@ CommandsRouter.route('/free')
   .get( function (req, res) {
     var region = req.query.region;
     Commands.free.run({region: region})
+      log.debug("/commands/free", results)
       .then( function (results) {
         res.send({
           command: "/commands/free",

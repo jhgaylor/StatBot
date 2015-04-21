@@ -13,6 +13,7 @@
     "body-parser": "^1.12.3",
     "cheerio": "^0.19.0",
     "express": "^4.7.2",
+    "le_node": "^0.2.1",
     "leagueapi": "git+https://github.com/jhgaylor/LeagueJS.git",
     "morgan": "^1.2.2",
     "q": "^1.2.0",
