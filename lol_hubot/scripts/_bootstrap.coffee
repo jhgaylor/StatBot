@@ -21,6 +21,22 @@ module.exports = (robot) ->
     console.log(users_data)
   logUserData()
   setInterval(logUserData, 60000)
+
+  # grab the champion names from the api server
+  CHAMPIONS_NAMES = []
+  API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN
+  # console.log "region #{region}"
+  api_url = "http://#{API_FQDN}/commands/champions_names"
+  console.log(api_url)
+  robot.http(api_url)
+    .get() (err, res, body) ->
+      unless err
+        data = JSON.parse body
+      if err || data.error
+        console.log "Error getting list champions", err || data.error
+        return;
+      CHAMPIONS_NAMES = data.data;
+
   # attach the fuzzy matcher
   fuzzy = require('fuzzy')
   robot.fuzzyFilter = (str) ->
