@@ -10,7 +10,7 @@ module.exports = (robot) ->
     argv = robot.optionParser msg.message.text.split(' '),
       alias:
         region: "r"
-    region = argv.region || argv._[0]
+    region = argv.region || argv._[1]
     user = msg.message.user
     # track an event with optional properties
     robot.mixpanel and robot.mixpanel.track "lolhubot:command",

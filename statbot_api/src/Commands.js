@@ -31,16 +31,29 @@ Commands = {
     });
     return results_promise;
   }),
-  free: Command(['riot.free_champions'], function (opts, dataSourceGetters) {
+  free: Command(['riot.champions'], function (opts, dataSourceGetters) {
     // build the data structure that should be send from the API to the caller
     // now have access to the data source values by calling getDataSourceGetters(options) which will return a promise for the data in that source
     // each build function is responsible for waiting for the data sources to load.
-    var champions_promise = dataSourceGetters['riot.free_champions']({
-      region: opts.region
+    var champions_promise = dataSourceGetters['riot.champions']({
+      region: opts.region,
+      free: true
     });
     var results_promise = champions_promise.then(function (champs) {
       // Do any formatting here
       return champs;
+    });
+    return results_promise;
+  }),
+  champions_names: Command(['riot.static_champions_data'], function (opts, dataSourceGetters) {
+    // build the data structure that should be send from the API to the caller
+    // now have access to the data source values by calling getDataSourceGetters(options) which will return a promise for the data in that source
+    // each build function is responsible for waiting for the data sources to load.
+    opts = opts || {}
+    var champions_promise = dataSourceGetters['riot.static_champions_data'](opts);
+    var results_promise = champions_promise.then(function (lookups) {
+      // Do any formatting here
+      return Object.keys(lookups.lookupByName);
     });
     return results_promise;
   }),

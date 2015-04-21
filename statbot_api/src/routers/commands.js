@@ -19,6 +19,21 @@ CommandsRouter.route('/free')
       });
   });
 
+CommandsRouter.route('/champions_names')
+  .get( function (req, res) {
+    var region = req.query.region;
+    Commands.champions_names.run({})
+      .then( function (results) {
+        res.send({
+          command: "/commands/champions_names",
+          data: results
+        });
+      })
+      .catch( function (err) {
+        res.send({ error: res });
+      });
+  });
+
 CommandsRouter.route('/counters')
   .get( function (req, res) {
     var champion_name = req.query.champion_name;

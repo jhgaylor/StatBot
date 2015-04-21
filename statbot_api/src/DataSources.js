@@ -53,13 +53,13 @@ var DataSources = {
           });
       }
     ),
-    free_champions: DataSource('riot_free_champions', ONE_DAY, Cache,
+    champions: DataSource('riot_champions', ONE_DAY, Cache,
       function (opts, done) {
-        // grabs the free champion list from an unofficial api
+        // grabs the (free) champion list from an unofficial api
         // use opts to make an http request and return some data
         // do async work and call the done cb
         var region = opts.region || "na"
-        var freeToPlay = true;
+        var freeToPlay = opts.free || true;
         staticChampionsDataPromise = DataSources.riot.static_champions_data.get({
           region: region
         })
