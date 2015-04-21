@@ -18,14 +18,6 @@ module.exports = (robot) ->
       summoner_name: user.summoner_name
       target_summoner_name: summoner_name
     msg.send "Processing referral..."
-    # presenceObj = new ltx.Element 'presence',
-    #   from: "statbot@pvp.net",
-    #   to: "#{summoner_name}@pvp.net",
-    #   type: 'subscribe'
-
-    # robot.adapter.client.send.call(robot.adapter, presenceObj)
-    # msg.send "Friend request sent."
-    # return
     # TODO: this process of making an http request to the statbotapi server
     #  needs to be more dry
     API_FQDN = process.env.API_ENV_TUTUM_SERVICE_FQDN

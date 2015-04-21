@@ -10,14 +10,7 @@ module.exports = (robot) ->
 
   # attach minimist, an option parser to the robot
   robot.optionParser = require('minimist');
-  # { name: 'presence',
-  # parent: null,
-  # attrs:
-  #  { to: 'sum50580562@pvp.net/xiff',
-  #    from: 'sum50580562@pvp.net/xiff',
-  #    type: 'available',
-  #    'xmlns:stream': 'http://etherx.jabber.org/streams' },
-  # children: [] }
+
   # move the old function
   robot.adapter._readPresence = robot.adapter.readPresence
   # wrap it in something to send the necessary presence to be seen online
