@@ -17,6 +17,12 @@ module.exports = (robot) ->
   robot.adapter.readPresence = (stanza) ->
     if stanza.attrs.type is "subscribe"
       console.log "received a subscribe. this is where you log gaining a new friend."
+      # TODO: record the friending somewhere where we can annotate it a bit better (summoner_name)
+      #   as well as record a successful referral if it was one
+      # tracks a mixpanel event of gaining a friend
+      robot.mixpanel and robot.mixpanel.track "lolhubot:friend",
+        user_id: stanza.attrs.from
+
       presence = new ltx.Element 'presence',
         from: stanza.attrs.to
         to:   stanza.attrs.from
