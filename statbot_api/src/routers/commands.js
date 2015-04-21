@@ -4,6 +4,21 @@ var _ = require('underscore')
 var Q = require('q');
 
 
+CommandsRouter.route('/summoner_id')
+  .get( function (req, res) {
+    var summoner_name = req.query.summoner_name;
+    Commands.summoner_id.run({summoner_name: summoner_name})
+      .then( function (results) {
+        res.send({
+          command: "/commands/summoner_id",
+          data: results
+        });
+      })
+      .catch( function (err) {
+        res.send({ error: res });
+      });
+  });
+
 CommandsRouter.route('/free')
   .get( function (req, res) {
     var region = req.query.region;

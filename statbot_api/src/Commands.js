@@ -123,6 +123,17 @@ Commands = {
     });
     return results_promise;
   }),
+  summoner_id: Command(['riot.summoner_id'], function (opts, dataSourceGetters) {
+    // build the data structure that should be send from the API to the caller
+    // now have access to the data source values by calling getDataSourceGetters(options) which will return a promise for the data in that source
+    // each build function is responsible for waiting for the data sources to load.
+    opts = opts || {}
+    var summonerIdPromise = dataSourceGetters['riot.summoner_id'](opts);
+    var results_promise = summonerIdPromise.then(function (summoner_id) {
+      return summoner_id;
+    });
+    return results_promise;
+  }),
   win_loss: Command(['riot.ranked_stats', 'riot.static_champions_data'], function (opts, dataSourceGetters) {
     console.log(opts)
     var stats_promise = dataSourceGetters['riot.ranked_stats'](opts);
