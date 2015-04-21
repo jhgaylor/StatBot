@@ -9,6 +9,71 @@ var cheerio = require('cheerio');
 //   the builderFn.  Only list a data_source if builder depends directly on the data
 //   Do NOT list subdeps
 Commands = {
+  intel: Command(['opgg.overview'], function (opts, dataSourceGetters) {
+    var overviewPromise = dataSourceGetters['opgg.overview'](opts)
+    return overviewPromise
+      .then(function (html) {
+        var $ = cheerio.load(html);
+        // console.log($('.Time.gameDate'));
+        function processTable (selector) {
+          var $table = $(selector);
+          var $summonerRows = $table.find('tbody tr');
+          var $teamRow = $table.find('thead tr');
+          var raw_mmr = $teamRow.find('td:first-child').text();
+          // something is weird in bans, i think it's encoded
+          // var $bans = $teamRow.find('td.BannedChampions dd');
+          // $bans.map(function (i, el) {
+          //   console.log("_", $(el).html());
+          // })
+          // .map(function (i, el) {
+          //   $el = $(el);
+          //   console.log("!", Object.keys($el));
+          //   return $el.attr('original-title');//.split(' ')[0]
+          // }).get();
+          var teamInfo = {
+            mmr: raw_mmr && raw_mmr.trim().split(':')[1].trim(),
+            // bans: bans,
+            summoners: $summonerRows.map(function (i, el) {
+              // el is tr.Champion
+              $el = $(el);
+              var previousRankImgUrl = $el.find('td.PreviousTierRank img').attr('src');
+              var parts = previousRankImgUrl.split('/');
+              var fullFileName = parts[parts.length-1];
+              var fileName = fullFileName.split('.')[0];
+              var previousRankName = fileName.replace('_', " ");
+              return {
+                name: $el.find('.SummonerName a').text(),
+                spells: $el.find('.championSpell .spell img').map(function (i, el) {
+                  var url = $(el).attr('src');
+                  var parts = url.split('/');
+                  var fullFileName = parts[parts.length-1];
+                  var fileName = fullFileName.split('.')[0];
+                  var spellName = fileName.replace('Summoner', "");
+                  return spellName;
+                }).get(),
+                carry: !! $el.find('td.CarryPower i.icon-bolt').length,
+                current_rank: $el.find('td.TierRank').text().split("(")[0],
+                previous_rank: previousRankName,
+                ranked_win_ratio: $el.find('td.WinRatio .ratio').text(),
+                ranked_games_played: $el.find('td.WinRatio span').text().split(" ")[0].replace("(", "").trim(),
+                champion_kda: $el.find('td.ChampionInfo div.KDA span.kda').text(),
+                champion_win_ratio: $el.find('td.ChampionInfo div.WinRatio span.ratio').text(),
+                champion_games: $el.find('td.ChampionInfo div.WinRatio span.title').text().split(" ")[0],
+              };
+            }).get()
+          };
+          return teamInfo;
+        }
+
+        return {
+          teamOne: processTable('table.teamOne'),
+          teamTwo: processTable('table.teamTwo'),
+        };
+      })
+      .catch(function (err) {
+        console.log("error processing opgg's html", err.stack)
+      });
+  }),
   counters: Command(['championselect.champion'], function (opts, dataSourceGetters) {
     var results_promise = dataSourceGetters['championselect.champion'](opts)
     var lane = opts.lane || "all";

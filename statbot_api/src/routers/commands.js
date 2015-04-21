@@ -19,6 +19,22 @@ CommandsRouter.route('/free')
       });
   });
 
+CommandsRouter.route('/intel')
+  .get( function (req, res) {
+    var region = req.query.region;
+    var summoner_name = req.query.summoner_name;
+    Commands.intel.run({region: region, summoner_name: summoner_name})
+      .then( function (results) {
+        res.send({
+          command: "/commands/intel",
+          data: results
+        });
+      })
+      .catch( function (err) {
+        res.send({ error: res });
+      });
+  });
+
 CommandsRouter.route('/champions_names')
   .get( function (req, res) {
     var region = req.query.region;

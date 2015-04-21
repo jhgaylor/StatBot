@@ -137,6 +137,40 @@ var DataSources = {
       }
     ),
   },
+  opgg: {
+    // cache for 5 minutes, but don't cache the value (err out) if
+    // the user is not in a game.
+    overview: DataSource('opgg_overview', ONE_MINUTE*5, Cache,
+      function (opts, done) {
+        var summoner_name = opts.summoner_name;
+        var region = opts.region || "na"
+        if(! summoner_name || summoner_name.length === 0){
+          done(new Error("No summoner_name name provided."))
+        }
+        var url = "/summoner/userName="+summoner_name;
+        var b = new Browser({site: 'http://'+region+'.op.gg', waitDuration:'15s'})
+        b.visit(url)
+          .then(function () {
+            console.log("opgg loaded");
+            b.wait({element: ".Time.gameDate"}, function (err, browser) {
+              if (err) {
+                b.destroy();
+                done(err);
+                return
+              }
+              // cache the page's html
+              var html = b.html();
+              // console.log(html);
+              done(null, html);
+            });
+          })
+          .catch(function (err) {
+            b.destroy();
+            done(err);
+          });
+      }
+    ),
+  },
   championselect: {
     champion: DataSource('championselect_champpage', ONE_WEEK, Cache,
       function (opts, done) {

@@ -29,12 +29,19 @@ var server = app.listen( PORT, function () {
 });
 
 // d = require('./DataSources');
-// d.championselect.counters.get({champion_name:"annie"})
+// d.opgg.overview.get({summoner_name:"runningunnin"})
 //   .then(function(res) {
 //     console.log("res", res);
 //   })
+//   .catch(function (err) {
+//     console.log("error getting data", err);
+//   });
 // c = require('./Commands');
-// c.counters.run({champion_name:"annie"})
+// c.intel.run({summoner_name:"runningunnin"})
 //   .then(function(res) {
 //     console.log("res", res);
+//     console.log(JSON.stringify(res));
+//   })
+//   .catch(function (err) {
+//     console.log("err with command", err)
 //   })
