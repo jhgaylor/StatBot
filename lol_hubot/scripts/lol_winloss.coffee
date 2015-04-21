@@ -27,6 +27,23 @@ module.exports = (robot) ->
       msg.send "Please specify a summoner name. ie `stats igetkills`"
       return
 
+    # only do the fuzzy matching if the parameter is provided
+    if champion_name
+      console.log("here")
+      # TODO: oh man is this not dry...
+      fuzzy_champion_name_matches = robot.fuzzyFilter(champion_name);
+      if fuzzy_champion_name_matches.length is 0
+        msg.send "The name you entered does not match a LoL champion."
+        return
+      if fuzzy_champion_name_matches.length > 1
+        msg.send "The name you entered matched multiple LoL champions."
+        msg.send "Did you mean:"
+        msg.send fuzzy_champion_name_matches.join(', ')
+        return
+      # if there is exactly 1 match, set it
+      if fuzzy_champion_name_matches.length is 1
+        champion_name = fuzzy_champion_name_matches[0]
+
     queryObj =
       summoner_name: summoner_name
       champion_name: champion_name
