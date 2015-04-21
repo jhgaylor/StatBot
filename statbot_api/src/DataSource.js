@@ -13,7 +13,7 @@ function DataSource (name, timeout, cache, getterFn, keyFn) {
     // the name param is passed because w/o it a passed in function
     // wouldn't have access to it.
     optsStr = JSON.stringify(opts);
-    return [name, optsStr].join("-");
+    return "datasource:"+[name, optsStr].join("-");
   };
 
   var dataDeferred;
