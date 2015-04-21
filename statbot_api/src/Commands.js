@@ -15,7 +15,7 @@ Commands = {
       // extract the data from the html
       var $ = cheerio.load(html);
       // TODO: extend to work for specified lanes by replacing _general
-      var $champs = $('._general .weak-block .champ-block .left.theinfo');
+      var $champs = $('._all .weak-block .champ-block .left.theinfo');
       var counters = [];
       $champs.each(function (i, el) {
         $el = $(el);
