@@ -23,7 +23,7 @@ module.exports = (robot) ->
   # wrap it in something to send the necessary presence to be seen online
   robot.adapter.readPresence = (stanza) ->
     if stanza.attrs.type is "subscribe"
-      console.log "received a subscribe. this is where you log a referral being accepted."
+      console.log "received a subscribe. this is where you log gaining a new friend."
       presence = new ltx.Element 'presence',
         from: stanza.attrs.to
         to:   stanza.attrs.from
