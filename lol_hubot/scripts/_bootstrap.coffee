@@ -21,3 +21,9 @@ module.exports = (robot) ->
     console.log(users_data)
   logUserData()
   setInterval(logUserData, 60000)
+  # attach the fuzzy matcher
+  fuzzy = require('fuzzy')
+  robot.fuzzyFilter = (str) ->
+    results = fuzzy.filter(str, CHAMPIONS_NAMES);
+    return results.map (res) ->
+      return res.string
