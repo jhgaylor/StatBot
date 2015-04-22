@@ -6,6 +6,7 @@ Live
 * NA - StatBot
 * OCE - StatBot
 * EUW - StatPal
+* LAS - StatBot
 
 ## Purpose
 
