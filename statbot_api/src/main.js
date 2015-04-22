@@ -41,12 +41,12 @@ var server = app.listen( PORT, function () {
 //   .catch(function (err) {
 //     console.log("error getting data", err);
 //   });
-c = require('./Commands');
-c.stats.run({summoner_name:"valandine"})
-  .then(function(res) {
-    console.log("res", res);
-    console.log(JSON.stringify(res));
-  })
-  .catch(function (err) {
-    console.log("err with command", err)
-  })
+// c = require('./Commands');
+// c.stats.run({summoner_name:"valandine"})
+//   .then(function(res) {
+//     console.log("res", res);
+//     console.log(JSON.stringify(res));
+//   })
+//   .catch(function (err) {
+//     console.log("err with command", err)
+//   })

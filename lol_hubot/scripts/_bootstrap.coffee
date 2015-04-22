@@ -61,7 +61,7 @@ module.exports = (robot) ->
       unless err
         data = JSON.parse body
       if err || data.error
-        robot.log.error "Error getting list champions", err || data.error
+        robot.log.err "Error getting list champions", err || data.error
         return;
       CHAMPIONS_NAMES = data.data;
 
