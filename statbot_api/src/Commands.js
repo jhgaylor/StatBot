@@ -2,6 +2,7 @@ var Command = require('./Command');
 
 var _ = require('underscore')
 var Q = require('q');
+var logentries = require('le_node');
 var log = logentries.logger({
   token: process.env.LOGENTRIES_API_KEY,
 });
@@ -142,35 +143,43 @@ Commands = {
     });
     return results_promise;
   }),
-  win_loss: Command(['riot.ranked_stats', 'riot.static_champions_data'], function (opts, dataSourceGetters) {
+
+  stats: Command(['riot.summary', 'riot.ranked_stats', 'riot.static_champions_data'], function (opts, dataSourceGetters) {
     console.log(opts)
+    var summary_promise = dataSourceGetters['riot.summary'](opts);
     var stats_promise = dataSourceGetters['riot.ranked_stats'](opts);
     var champions_data_promise = dataSourceGetters['riot.static_champions_data'](opts);
     // wait for all data sources and call a handler to
-    var results_promise = Q.all([stats_promise, champions_data_promise])
-      .spread(function (statsPerChampion, lookups){
+    var results_promise = Q.all([summary_promise, stats_promise, champions_data_promise])
+      .spread(function (summary, statsPerChampion, lookups){
         // console.log("command received", statsPerChampion, lookups);
-        var wins = null;
-        var losses = null;
+        var ranked_wins = null;
+        var ranked_losses = null;
+        // with summary data we don't have champion level resolution. we ignore that flag
+        var normal5sStats = _.find(summary, function (el) {
+          return el.playerStatSummaryType === 'Unranked';
+        });
+        var normals_5s_wins = normal5sStats && normal5sStats.wins
 
 
         // only calculate the stats for the champion in question
         // or in the case of no provided champion name, the 0 id
         // which is the aggregate stats
-        championId = lookups.lookupByName[opts.champion_name] || 0;
+        var championId = lookups.lookupByName[opts.champion_name] || 0;
         // find the champion matching the id from the stats
-        var champ = _.find(statsPerChampion, function (el) {
-          return el.id == championId
+        var ranked_champ_stats = _.find(statsPerChampion, function (el) {
+          return el.id == championId;
         });
-        if (champ) {
-          wins = champ.stats.totalSessionsWon
-          losses = champ.stats.totalSessionsLost
+        if (ranked_champ_stats) {
+          ranked_wins = ranked_champ_stats.stats.totalSessionsWon
+          ranked_losses = ranked_champ_stats.stats.totalSessionsLost
         }
 
         return {
-          wins: wins,
-          losses: losses,
-          winRate: wins && losses && ((wins/(wins+losses))*100).toFixed(2)
+          normals_5s_wins: normals_5s_wins,
+          ranked_wins: ranked_wins,
+          ranked_losses: ranked_losses,
+          ranked_win_rate: ranked_wins && ranked_losses && ((ranked_wins/(ranked_wins+ranked_losses))*100).toFixed(2)
         };
       });
     return results_promise;

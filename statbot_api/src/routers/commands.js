@@ -100,7 +100,7 @@ CommandsRouter.route('/stats')
       });
       return;
     }
-    Commands.win_loss.run({
+    Commands.stats.run({
         summoner_name: summoner_name,
         champion_name: champion_name,
         season: season,
@@ -109,7 +109,7 @@ CommandsRouter.route('/stats')
       .then( function (results) {
         console.log("command returned", results)
         res.send({
-          command: "/commands/win_loss",
+          command: "/commands/stats",
           data: results
         });
       })

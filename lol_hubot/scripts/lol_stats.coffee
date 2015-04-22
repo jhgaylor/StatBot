@@ -74,15 +74,16 @@ module.exports = (robot) ->
           return;
         console.log "body", body
         data = JSON.parse(body).data
-        unless data.wins or data.losses
+        unless data.ranked_wins or data.ranked_losses
           msg.send "Incomplete data found for #{msg.match[1]}"
           return
 
-        wins = data.wins
-        losses = data.losses
-        win_percentage = data.winRate
-        msg.send "Total: #{wins+losses}  Wins: #{wins}  Losses: #{losses}"
+        ranked_wins = data.ranked_wins
+        ranked_losses = data.ranked_losses
+        win_percentage = data.ranked_win_rate
+        msg.send "Total: #{ranked_wins+ranked_losses}  Wins: #{ranked_wins}  Losses: #{ranked_losses}"
         msg.send "Win Percentage: #{win_percentage}%"
+        msg.send "Normal 5's Wins: #{data.normals_5s_wins}"
 
     msg.send "Getting stats for #{summoner_name}"
 

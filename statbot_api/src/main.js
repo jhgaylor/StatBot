@@ -34,19 +34,19 @@ var server = app.listen( PORT, function () {
 });
 
 // d = require('./DataSources');
-// d.opgg.overview.get({summoner_name:"runningunnin"})
+// d.riot.summary.get({summoner_name:"igetkills"})
 //   .then(function(res) {
 //     console.log("res", res);
 //   })
 //   .catch(function (err) {
 //     console.log("error getting data", err);
 //   });
-// c = require('./Commands');
-// c.intel.run({summoner_name:"runningunnin"})
-//   .then(function(res) {
-//     console.log("res", res);
-//     console.log(JSON.stringify(res));
-//   })
-//   .catch(function (err) {
-//     console.log("err with command", err)
-//   })
+c = require('./Commands');
+c.stats.run({summoner_name:"valandine"})
+  .then(function(res) {
+    console.log("res", res);
+    console.log(JSON.stringify(res));
+  })
+  .catch(function (err) {
+    console.log("err with command", err)
+  })

@@ -1,6 +1,7 @@
 var request = require('request');
 var _ = require('underscore');
 var DataSource = require('./DataSource');
+var logentries = require('le_node');
 var log = logentries.logger({
   token: process.env.LOGENTRIES_API_KEY,
 });
@@ -144,7 +145,33 @@ var DataSources = {
         });
       }
     ),
+    summary: DataSource('riot_summary', ONE_HOUR, Cache,
+      function (opts, done) {
+        log.debug("DataSource:riot_summary called")
+        var summoner_name = opts.summoner_name;
+        var region = opts.region || "na";
+        var season = opts.season || "2015"
+
+        // this source depends on another source, 'riot_summoner_id'
+        var summoner_id_promise = DataSources.riot.summoner_id.get({
+          summoner_name: summoner_name,
+          region: region
+        }).then(function (summonerId) {
+          // now actually go grab the ranked stats
+          // console.log("ID: ", id)
+          LolApi.Stats.getPlayerSummary(summonerId, season, region)
+            .then(function (summary) {
+              // console.log("--", summary)
+              done(null, summary);
+            })
+            .catch(function (err) {
+              done(err);
+            });
+        });
+      }
+    ),
   },
+  // TODO: replace w/ calls to riot's api. can get all of this myself
   opgg: {
     // cache for 5 minutes, but don't cache the value (err out) if
     // the user is not in a game.

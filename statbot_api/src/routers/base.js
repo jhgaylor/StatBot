@@ -2,6 +2,7 @@ var BaseRouter = require('express').Router();
 var DataSources = require('../DataSources');
 var _ = require('underscore')
 var Q = require('q');
+var logentries = require('le_node');
 var log = logentries.logger({
   token: process.env.LOGENTRIES_API_KEY,
 });
