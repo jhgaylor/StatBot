@@ -59,7 +59,7 @@ if mixpanel_api_key
   mixpanel = Mixpanel.init(mixpanel_api_key)
 
 module.exports = (robot) ->
-  robot.hear /help\s*(.*)?$/i, (msg) ->
+  robot.hear /(help|h|hello|hi|sup)\s*(.*)?$/i, (msg) ->
     user = msg.message.user
     # track an event with optional properties
     mixpanel and mixpanel.track("lolhubot:command", {
