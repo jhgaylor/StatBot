@@ -51,25 +51,20 @@ helpContents = (name, commands) ->
 </html>
   """
 
-# TODO: how can i make this DRY?
-Mixpanel = require('mixpanel')
-# create an instance of the mixpanel client
-mixpanel_api_key = process.env.STATBOT_MIXPANEL_KEY
-if mixpanel_api_key
-  mixpanel = Mixpanel.init(mixpanel_api_key)
-
 module.exports = (robot) ->
-  robot.hear /(help|h|hello|hi|sup)\s*(.*)?$/i, (msg) ->
+  robot.hear /^(help|h|hello|hi|sup)\s*(.*)?$/i, (msg) ->
+    argv = robot.optionParser msg.message.text.split(' ')
     user = msg.message.user
     # track an event with optional properties
-    mixpanel and mixpanel.track("lolhubot:command", {
+    robot.mixpanel and robot.mixpanel.track("lolhubot:command", {
       command: "help"
+      text: msg.message.text
       user_id: user.id
       summoner_name: user.summoner_name
     })
 
     cmds = robot.helpCommands()
-    filter = msg.match[1]
+    filter = argv._[1]
 
     if filter
       cmds = cmds.filter (cmd) ->
