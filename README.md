@@ -3,9 +3,9 @@ A chat bot and web tools for League of Legends
 
 Live
 
-NA - StatBot
-OCE - StatBot
-EUW - StatPal
+* NA - StatBot
+* OCE - StatBot
+* EUW - StatPal
 
 ## Purpose
 
