@@ -52,7 +52,7 @@ helpContents = (name, commands) ->
   """
 
 module.exports = (robot) ->
-  robot.hear /^(help|h|hello|hi|sup)\s*(.*)?$/i, (msg) ->
+  robot.hear /^(help|h|hello|hi|sup|"help")\s*(.*)?$/i, (msg) ->
     argv = robot.optionParser msg.message.text.split(' ')
     user = msg.message.user
     # track an event with optional properties
