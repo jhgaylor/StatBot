@@ -28,8 +28,8 @@ CommandsRouter.route('/free')
   .get( function (req, res) {
     var region = req.query.region;
     Commands.free.run({region: region})
-      log.debug("/commands/free", results)
       .then( function (results) {
+        log.debug("/commands/free", results)
         res.send({
           command: "/commands/free",
           data: results
